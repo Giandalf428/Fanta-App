@@ -5,13 +5,6 @@ import pickle
 
 st.set_page_config(layout="wide", page_title="Fantaculo Personale - Pro Live")
 
-st.markdown("""
-    <meta name="google" content="notranslate">
-    <style>
-        body { font-family: sans-serif; }
-    </style>
-""", unsafe_allow_html=True)
-
 SAVE_FILE = "salvataggio_asta.pkl"
 
 def salva_stato():
@@ -45,6 +38,14 @@ infortunati = {
     'Adorante': 'Rientro metà-fine ottobre', 'Sverko': 'Rientro metà-fine ottobre'
 }
 
+# --- BLOCCO TRADUZIONE CHROME ---
+st.markdown("""
+    <meta name="google" content="notranslate">
+    <style>
+        body { font-family: sans-serif; }
+    </style>
+""", unsafe_allow_html=True)
+
 if 'inizializzato' not in st.session_state:
     if os.path.exists(SAVE_FILE):
         try:
@@ -66,12 +67,8 @@ if 'inizializzato' not in st.session_state:
             
             df['Quotazione'] = df['Qt.A'].fillna(1).astype(int)
             df['FVM'] = df['FVM'].fillna(1).astype(int)
-            
-            # Calcolo Prezzo Consigliato: FVM è calcolato su 1000 crediti. Con 500 cr di budget, PFC = FVM / 2
             df['PFC'] = (df['FVM'] / 2).astype(int)
             df['PMA'] = df['Quotazione'] + 2 
-            
-            # Stima Titolarità basata sul Valore di Mercato
             df['Titolarita'] = df['FVM'].apply(lambda x: 95 if x > 70 else (80 if x > 30 else (60 if x > 10 else 30)))
             
             voti_calendario = {'Atalanta': 5, 'Bologna': 3, 'Cagliari': 4, 'Como': 2, 'Fiorentina': 3, 'Frosinone': 2, 'Genoa': 3, 'Inter': 4, 'Juventus': 5, 'Lazio': 3, 'Lecce': 3, 'Milan': 4, 'Monza': 4, 'Napoli': 4, 'Parma': 4, 'Roma': 4, 'Sassuolo': 4, 'Torino': 2, 'Udinese': 3, 'Venezia': 5}
@@ -114,16 +111,45 @@ if 'inizializzato' not in st.session_state:
 team_names = st.session_state.nomi_squadre
 
 st.sidebar.title("⚙️ Impostazioni")
+
+# --- NUOVA SEZIONE: GESTIONE PARTECIPANTI ---
+st.sidebar.subheader("👥 Gestione Partecipanti")
+c_add1, c_add2 = st.sidebar.columns([2, 1])
+nuovo_nome_sq = c_add1.text_input("Nome", key="nuovo_team_input", placeholder="Es. Squadra 9")
+if c_add2.button("Aggiungi"):
+    if nuovo_nome_sq and nuovo_nome_sq not in team_names:
+        st.session_state.nomi_squadre.append(nuovo_nome_sq)
+        st.session_state.squadre[nuovo_nome_sq] = {'budget': 500, 'giocatori': []}
+        salva_stato()
+        st.rerun()
+
+c_rem1, c_rem2 = st.sidebar.columns([2, 1])
+squadra_da_rimuovere = c_rem1.selectbox("Rimuovi", team_names, key="rimuovi_team_sel")
+if c_rem2.button("Elimina"):
+    if len(team_names) > 2:
+        giocatori_restituiti = st.session_state.squadre[squadra_da_rimuovere]['giocatori']
+        for g_r in giocatori_restituiti:
+            g_rim = {k: v for k, v in g_r.items() if k != 'Prezzo Pagato'}
+            st.session_state.listone = pd.concat([st.session_state.listone, pd.DataFrame([g_rim])], ignore_index=True)
+        
+        st.session_state.nomi_squadre.remove(squadra_da_rimuovere)
+        del st.session_state.squadre[squadra_da_rimuovere]
+        salva_stato()
+        st.rerun()
+    else:
+        st.sidebar.error("Devono restare almeno 2 squadre!")
+
+st.sidebar.divider()
+
+# --- RINOMINA SQUADRE ---
 st.sidebar.subheader("✏️ Rinomina Squadre")
-for i in range(8):
-    vecchio_nome = team_names[i]
-    nuovo_nome = st.sidebar.text_input(f"Nome Squadra {i+1}", value=vecchio_nome, key=f"input_nome_{i}")
-    if nuovo_nome != vecchio_nome:
-        if nuovo_nome not in st.session_state.squadre:
-            st.session_state.squadre[nuovo_nome] = st.session_state.squadre.pop(vecchio_nome)
-            st.session_state.nomi_squadre[i] = nuovo_nome
-            salva_stato()
-            st.rerun()
+for i, vecchio_nome in enumerate(team_names):
+    nuovo_nome = st.sidebar.text_input(f"Nome {i+1}", value=vecchio_nome, key=f"input_nome_{i}")
+    if nuovo_nome != vecchio_nome and nuovo_nome not in st.session_state.squadre:
+        st.session_state.squadre[nuovo_nome] = st.session_state.squadre.pop(vecchio_nome)
+        st.session_state.nomi_squadre[i] = nuovo_nome
+        salva_stato()
+        st.rerun()
 
 st.sidebar.divider()
 st.sidebar.subheader("🚨 Gestione Emergenze")
@@ -135,12 +161,13 @@ if st.sidebar.button("⚠️ RESETTA TUTTA L'ASTA"):
 st.image("https://cdn-icons-png.flaticon.com/512/8853/8853106.png", width=60)
 st.title("⚽ Fantaculo Personale - Squad Builder & Live Pro")
 
+# --- PORTAFOGLI DINAMICI ---
 st.subheader("💰 Portafogli e Slot")
-cols1, cols2 = st.columns(4), st.columns(4)
+cols = st.columns(4) # Crea 4 colonne che andranno a capo in automatico
 for i, nome_sq in enumerate(team_names):
     dati_sq = st.session_state.squadre[nome_sq]
-    col_target = cols1[i] if i < 4 else cols2[i-4]
-    with col_target: col_target.metric(label=f"{nome_sq} ({len(dati_sq['giocatori'])}/25)", value=f"{dati_sq['budget']} cr")
+    with cols[i % 4]: 
+        st.metric(label=f"{nome_sq} ({len(dati_sq['giocatori'])}/25)", value=f"{dati_sq['budget']} cr")
 
 st.divider()
 st.subheader("🎯 Centro di Comando")
