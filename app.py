@@ -21,14 +21,14 @@ rigoristi_secondi = ['Samardzic', 'Ederson', 'Krstovic', 'Dovbyk', 'Bernardeschi
 finti_attaccanti = ['Pulisic', 'Zaccagni', 'Orsolini', 'Gudmundsson', 'Nico Paz', 'Paz N.', 'Fazzini', 'Mastantuono', 'Cambiaghi', 'Rowe', 'Maldini', 'Oristanio', 'Man', 'Neres', 'Chukwueze', 'Politano', 'Ngonge', 'Suslov']
 difensori_avanzati = ['Dimarco', 'Hernandez T.', 'Theo Hernandez', 'Dumfries', 'Bellanova', 'Cambiaso', 'Zappacosta', 'Ruggeri', 'Carlos Augusto', 'Dorgu', 'Tchatchoua', 'Kyriakopoulos', 'Gosens', 'Spinazzola', 'Biraghi', 'Gallo', 'Lazzari', 'Dodò', 'Dodo']
 
-# --- DATABASE INFORTUNI E SQUALIFICHE (AGGIORNATO AL 3 SETTEMBRE) ---
+# --- DATABASE INFORTUNI E SQUALIFICHE (AGGIORNATO DA BOLLETTINO MEDICO) ---
 infortunati = {
     'Hien': 'Rientro a ottobre', 'Sulemana': 'Rientro a ottobre', 'Kristensen': 'In dubbio', 'Scalvini': 'In dubbio', 'De Ketelaere': 'In dubbio', 'Ahanor': 'In dubbio',
     'Orsolini': 'Rientro tra fine settembre e inizio ottobre', 'El Azzouzi': 'Rientro a ottobre', 'Casale': 'In dubbio',
     'Idrissi': 'Rientro a novembre', 'Trepy': 'In dubbio', 'Mina': 'In dubbio', 'Borrelli': 'In dubbio',
     'Addai': 'Rientro a ottobre',
     'Parisi': 'Rientro a fine novembre',
-    'Venturino': 'Rientro a settembre', 'Messias': 'In dubbio', 'Havel': 'In dubbio',
+    'Venturino': 'Rientro a metà settembre', 'Messias': 'In dubbio', 'Havel': 'In dubbio',
     'Mkhitaryan': 'Squalificato', 
     'Yildiz': 'Rientro a dicembre', 'Ekhator': 'Rientro a novembre', 'Gatti': 'In dubbio', 'Perin': 'In dubbio', 'Thuram': 'Rientro a inizio 2027', 'McKennie': 'In dubbio', 'Cabal': 'In dubbio', 'Cambiaso': 'In dubbio',
     'Marusic': 'Rientro a ottobre', 'Dele-Bashiru': 'Rientro a metà settembre', 'Cataldi': 'Rientro a metà settembre', 'Rovella': 'Rientro a metà ottobre', 'Patric': 'In dubbio', 'Pellegrini': 'In dubbio',
@@ -209,8 +209,17 @@ with col_ia:
                 if row['Titolarita'] < 50: return 0 
                 
                 base_spesa = row['PFC']
-                if row['Infortunio'] != "No": 
-                    base_spesa = max(1, base_spesa * 0.3) 
+                inf = str(row['Infortunio']).lower()
+                
+                if inf != "no": 
+                    if "dubbio" in inf or "settembre" in inf or "squalificato" in inf:
+                        base_spesa = max(1, base_spesa * 0.8) 
+                    elif "ottobre" in inf:
+                        base_spesa = max(1, base_spesa * 0.5)
+                    elif "novembre" in inf or "dicembre" in inf or "2027" in inf or "gennaio" in inf:
+                        base_spesa = max(1, base_spesa * 0.2)
+                    else:
+                        base_spesa = max(1, base_spesa * 0.5)
                 
                 df_ruolo = st.session_state.listone[st.session_state.listone['Ruolo'] == row['Ruolo']]
                 num_meglio = len(df_ruolo[(df_ruolo['FVM'] > row['FVM']) & (df_ruolo['Titolarita'] > 60) & (df_ruolo['Nome'] != row['Nome'])])
@@ -265,8 +274,16 @@ with col_radar:
             avviso = ""
             
             if g['Infortunio'] != "No":
-                base_spesa = max(1, base_spesa * 0.3)
-                avviso += f"🚑 **ALLARME INFORTUNIO/SQUALIFICA:** {g['Infortunio']}. Spesa sconsigliata!\n\n"
+                inf_str = g['Infortunio'].lower()
+                if "dubbio" in inf_str or "settembre" in inf_str or "squalificato" in inf_str:
+                    base_spesa = max(1, base_spesa * 0.8)
+                    avviso += f"🚑 **INFORTUNIO LIEVE:** {g['Infortunio']}. Spesa abbassata del 20%.\n\n"
+                elif "ottobre" in inf_str:
+                    base_spesa = max(1, base_spesa * 0.5)
+                    avviso += f"🚑 **INFORTUNIO MEDIO:** {g['Infortunio']}. Spesa dimezzata!\n\n"
+                else:
+                    base_spesa = max(1, base_spesa * 0.2)
+                    avviso += f"🚑 **INFORTUNIO GRAVE:** {g['Infortunio']}. Budget tagliato dell'80%!\n\n"
                 
             df_ruolo = st.session_state.listone[st.session_state.listone['Ruolo'] == g['Ruolo']]
             df_meglio = df_ruolo[(df_ruolo['FVM'] > g['FVM']) & (df_ruolo['Titolarita'] > 60) & (df_ruolo['Nome'] != g['Nome'])]
