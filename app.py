@@ -21,21 +21,27 @@ rigoristi_secondi = ['Samardzic', 'Ederson', 'Krstovic', 'Dovbyk', 'Bernardeschi
 finti_attaccanti = ['Pulisic', 'Zaccagni', 'Orsolini', 'Gudmundsson', 'Nico Paz', 'Paz N.', 'Fazzini', 'Mastantuono', 'Cambiaghi', 'Rowe', 'Maldini', 'Oristanio', 'Man', 'Neres', 'Chukwueze', 'Politano', 'Ngonge', 'Suslov']
 difensori_avanzati = ['Dimarco', 'Hernandez T.', 'Theo Hernandez', 'Dumfries', 'Bellanova', 'Cambiaso', 'Zappacosta', 'Ruggeri', 'Carlos Augusto', 'Dorgu', 'Tchatchoua', 'Kyriakopoulos', 'Gosens', 'Spinazzola', 'Biraghi', 'Gallo', 'Lazzari', 'Dodò', 'Dodo']
 
-# --- DATABASE INFORTUNI E SQUALIFICHE ---
+# --- DATABASE INFORTUNI E SQUALIFICHE (AGGIORNATO AL 3 SETTEMBRE) ---
 infortunati = {
-    'Ahanor': 'Rientro fine agosto', 'Hien': 'Rientro inizio ottobre', 'Kristensen': 'Da valutare', 'Sulemana': 'Rientro metà ottobre',
-    'Idrissi': 'Rientro settembre/ottobre', 'Addai': 'Rientro settembre/ottobre',
-    'Parisi': 'Rientro novembre/dicembre', 'Venturino': 'Rientro inizio settembre',
-    'Ekhator': 'Rientro fine agosto', 'Gatti': 'Da valutare', 'Vicario': 'Da valutare', 'Yildiz': 'Da valutare',
-    'Cataldi': 'Rientro inizio settembre', 'Dele-Bashiru': 'Da valutare', 'Marusic': 'Da valutare',
-    'Gallo': 'Da valutare', 'Gimenez': 'Rientro fine agosto/inizio settembre', 'Leao': 'Da valutare',
-    'Pessina': 'Rientro fine ottobre-inizio novembre',
-    'Buongiorno': 'Rientro novembre', 'Marianucci': 'Rientro metà ottobre', 'Marin': 'Da valutare',
-    'Nicolussi Caviglia': 'Rientro metà settembre', 'Rensch': 'Da valutare', 'Vaz': 'Rientro metà settembre',
-    'Berardi': 'Rientro fine agosto-inizio settembre', 'Candé': 'Rientro metà settembre', 'Koné': 'Rientro gennaio 2027', 'Pinamonti': 'Da valutare',
-    'Comuzzo': 'Da valutare', 'Israel': 'Rientro novembre-dicembre',
-    'Kabasele': 'Squalificato (1 giornata)', 'Chakvetadze': 'Rientro fine agosto/inizio settembre', 'Gueye': 'Da valutare', 'Zanoli': 'Rientro metà-fine settembre',
-    'Adorante': 'Rientro metà-fine ottobre', 'Sverko': 'Rientro metà-fine ottobre'
+    'Hien': 'Rientro a ottobre', 'Sulemana': 'Rientro a ottobre', 'Kristensen': 'In dubbio', 'Scalvini': 'In dubbio', 'De Ketelaere': 'In dubbio', 'Ahanor': 'In dubbio',
+    'Orsolini': 'Rientro tra fine settembre e inizio ottobre', 'El Azzouzi': 'Rientro a ottobre', 'Casale': 'In dubbio',
+    'Idrissi': 'Rientro a novembre', 'Trepy': 'In dubbio', 'Mina': 'In dubbio', 'Borrelli': 'In dubbio',
+    'Addai': 'Rientro a ottobre',
+    'Parisi': 'Rientro a fine novembre',
+    'Venturino': 'Rientro a settembre', 'Messias': 'In dubbio', 'Havel': 'In dubbio',
+    'Mkhitaryan': 'Squalificato', 
+    'Yildiz': 'Rientro a dicembre', 'Ekhator': 'Rientro a novembre', 'Gatti': 'In dubbio', 'Perin': 'In dubbio', 'Thuram': 'Rientro a inizio 2027', 'McKennie': 'In dubbio', 'Cabal': 'In dubbio', 'Cambiaso': 'In dubbio',
+    'Marusic': 'Rientro a ottobre', 'Dele-Bashiru': 'Rientro a metà settembre', 'Cataldi': 'Rientro a metà settembre', 'Rovella': 'Rientro a metà ottobre', 'Patric': 'In dubbio', 'Pellegrini': 'In dubbio',
+    'Berisha': 'In dubbio', 'Gallo': 'In dubbio',
+    'Pulisic': 'In dubbio', 'Leao': 'In dubbio', 'Gimenez': 'In dubbio', 'Geubbels': 'Rientro a metà settembre',
+    'Pessina': 'Rientro tra ottobre e novembre', 'Toure': 'In dubbio', 'Varela': 'In dubbio', 'Ciurria': 'In dubbio', 'Colombo': 'In dubbio', 'Akinsanmiro': 'In dubbio',
+    'Buongiorno': 'Rientro a fine novembre', 'Marianucci': 'Rientro a ottobre', 'McTominay': 'Rientro a metà ottobre', 'Lucca': 'In dubbio', 'Beukema': 'In dubbio',
+    'Nicolussi Caviglia': 'Rientro a novembre', 'Cremaschi': 'Rientro a fine settembre', 'Britschgi': 'Squalificato', 'Daffara': 'In dubbio',
+    'Vaz': 'Rientro a metà settembre', 'Ndicka': 'In dubbio', 'Rensch': 'In dubbio', 
+    'Cande': 'Rientro a metà settembre', 'Kone': 'Rientro a dicembre/gennaio', 'Pieragnolo': 'Rientro a ottobre', 'Walukiewicz': 'In dubbio', 'Boloca': 'In dubbio', 'Berardi': 'In dubbio',
+    'Israel': 'Rientro a novembre', 'Casadei': 'In dubbio', 'Zapata': 'In dubbio', 'Comuzzo': 'In dubbio',
+    'Chakvetadze': 'Rientro a metà settembre', 'Zanoli': 'Rientro a ottobre', 'Zaniolo': 'Rientro a fine settembre', 'Palma': 'Rientro a metà settembre', 'Kabasele': 'Squalificato', 'Okoye': 'In dubbio',
+    'Sverko': 'Rientro a ottobre', 'Adorante': 'Rientro a ottobre', 'Franjic': 'In dubbio', 'Moreno': 'In dubbio'
 }
 
 # --- BLOCCO TRADUZIONE CHROME ---
@@ -112,7 +118,6 @@ team_names = st.session_state.nomi_squadre
 
 st.sidebar.title("⚙️ Impostazioni")
 
-# --- NUOVA SEZIONE: GESTIONE PARTECIPANTI ---
 st.sidebar.subheader("👥 Gestione Partecipanti")
 c_add1, c_add2 = st.sidebar.columns([2, 1])
 nuovo_nome_sq = c_add1.text_input("Nome", key="nuovo_team_input", placeholder="Es. Squadra 9")
@@ -141,7 +146,6 @@ if c_rem2.button("Elimina"):
 
 st.sidebar.divider()
 
-# --- RINOMINA SQUADRE ---
 st.sidebar.subheader("✏️ Rinomina Squadre")
 for i, vecchio_nome in enumerate(team_names):
     nuovo_nome = st.sidebar.text_input(f"Nome {i+1}", value=vecchio_nome, key=f"input_nome_{i}")
@@ -161,9 +165,8 @@ if st.sidebar.button("⚠️ RESETTA TUTTA L'ASTA"):
 st.image("https://cdn-icons-png.flaticon.com/512/8853/8853106.png", width=60)
 st.title("⚽ Fantaculo Personale - Squad Builder & Live Pro")
 
-# --- PORTAFOGLI DINAMICI ---
 st.subheader("💰 Portafogli e Slot")
-cols = st.columns(4) # Crea 4 colonne che andranno a capo in automatico
+cols = st.columns(4) 
 for i, nome_sq in enumerate(team_names):
     dati_sq = st.session_state.squadre[nome_sq]
     with cols[i % 4]: 
