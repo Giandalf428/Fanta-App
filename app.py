@@ -21,30 +21,29 @@ rigoristi_secondi = ['Samardzic', 'Ederson', 'Krstovic', 'Dovbyk', 'Bernardeschi
 finti_attaccanti = ['Pulisic', 'Zaccagni', 'Orsolini', 'Gudmundsson', 'Nico Paz', 'Paz N.', 'Fazzini', 'Mastantuono', 'Cambiaghi', 'Rowe', 'Maldini', 'Oristanio', 'Man', 'Neres', 'Chukwueze', 'Politano', 'Ngonge', 'Suslov']
 difensori_avanzati = ['Dimarco', 'Hernandez T.', 'Theo Hernandez', 'Dumfries', 'Bellanova', 'Cambiaso', 'Zappacosta', 'Ruggeri', 'Carlos Augusto', 'Dorgu', 'Tchatchoua', 'Kyriakopoulos', 'Gosens', 'Spinazzola', 'Biraghi', 'Gallo', 'Lazzari', 'Dodò', 'Dodo']
 
-# --- DATABASE INFORTUNI E SQUALIFICHE (AGGIORNATO DA BOLLETTINO MEDICO) ---
+# --- DATABASE INFORTUNI E SQUALIFICHE (AGGIORNATO CON DIAGNOSI CLINICA) ---
 infortunati = {
-    'Hien': 'Rientro a ottobre', 'Sulemana': 'Rientro a ottobre', 'Kristensen': 'In dubbio', 'Scalvini': 'In dubbio', 'De Ketelaere': 'In dubbio', 'Ahanor': 'In dubbio',
-    'Orsolini': 'Rientro tra fine settembre e inizio ottobre', 'El Azzouzi': 'Rientro a ottobre', 'Casale': 'In dubbio',
+    'Hien': 'Rientro a ottobre (Lesione muscolare)', 'Sulemana': 'Rientro a ottobre', 'Kristensen': 'In dubbio', 'Scalvini': 'In dubbio', 'De Ketelaere': 'In dubbio', 'Ahanor': 'In dubbio',
+    'Orsolini': 'Rientro tra fine settembre e inizio ottobre (Bicipite femorale)', 'El Azzouzi': 'Rientro a ottobre', 'Casale': 'In dubbio',
     'Idrissi': 'Rientro a novembre', 'Trepy': 'In dubbio', 'Mina': 'In dubbio', 'Borrelli': 'In dubbio',
     'Addai': 'Rientro a ottobre',
-    'Parisi': 'Rientro a fine novembre',
+    'Parisi': 'Rientro a fine novembre (Ginocchio)',
     'Venturino': 'Rientro a metà settembre', 'Messias': 'In dubbio', 'Havel': 'In dubbio',
     'Mkhitaryan': 'Squalificato', 
-    'Yildiz': 'Rientro a dicembre', 'Ekhator': 'Rientro a novembre', 'Gatti': 'In dubbio', 'Perin': 'In dubbio', 'Thuram': 'Rientro a inizio 2027', 'McKennie': 'In dubbio', 'Cabal': 'In dubbio', 'Cambiaso': 'In dubbio',
+    'Yildiz': 'Rientro a dicembre (Frattura metacarpo)', 'Ekhator': 'Rientro a novembre', 'Gatti': 'In dubbio', 'Perin': 'In dubbio', 'Thuram': 'Rientro a inizio 2027 (Legamento crociato)', 'McKennie': 'In dubbio', 'Cabal': 'In dubbio', 'Cambiaso': 'In dubbio',
     'Marusic': 'Rientro a ottobre', 'Dele-Bashiru': 'Rientro a metà settembre', 'Cataldi': 'Rientro a metà settembre', 'Rovella': 'Rientro a metà ottobre', 'Patric': 'In dubbio', 'Pellegrini': 'In dubbio',
     'Berisha': 'In dubbio', 'Gallo': 'In dubbio',
     'Pulisic': 'In dubbio', 'Leao': 'In dubbio', 'Gimenez': 'In dubbio', 'Geubbels': 'Rientro a metà settembre',
-    'Pessina': 'Rientro tra ottobre e novembre', 'Toure': 'In dubbio', 'Varela': 'In dubbio', 'Ciurria': 'In dubbio', 'Colombo': 'In dubbio', 'Akinsanmiro': 'In dubbio',
-    'Buongiorno': 'Rientro a fine novembre', 'Marianucci': 'Rientro a ottobre', 'McTominay': 'Rientro a metà ottobre', 'Lucca': 'In dubbio', 'Beukema': 'In dubbio',
+    'Pessina': 'Rientro tra ottobre e novembre (Legamenti)', 'Toure': 'In dubbio', 'Varela': 'In dubbio', 'Ciurria': 'In dubbio', 'Colombo': 'In dubbio', 'Akinsanmiro': 'In dubbio',
+    'Buongiorno': 'Rientro a fine novembre (Caviglia)', 'Marianucci': 'Rientro a ottobre', 'McTominay': 'Rientro a metà ottobre', 'Lucca': 'In dubbio', 'Beukema': 'In dubbio',
     'Nicolussi Caviglia': 'Rientro a novembre', 'Cremaschi': 'Rientro a fine settembre', 'Britschgi': 'Squalificato', 'Daffara': 'In dubbio',
     'Vaz': 'Rientro a metà settembre', 'Ndicka': 'In dubbio', 'Rensch': 'In dubbio', 
-    'Cande': 'Rientro a metà settembre', 'Kone': 'Rientro a dicembre/gennaio', 'Pieragnolo': 'Rientro a ottobre', 'Walukiewicz': 'In dubbio', 'Boloca': 'In dubbio', 'Berardi': 'In dubbio',
+    'Cande': 'Rientro a metà settembre', 'Kone': 'Rientro a dicembre/gennaio (Crociato)', 'Pieragnolo': 'Rientro a ottobre', 'Walukiewicz': 'In dubbio', 'Boloca': 'In dubbio', 'Berardi': 'In dubbio',
     'Israel': 'Rientro a novembre', 'Casadei': 'In dubbio', 'Zapata': 'In dubbio', 'Comuzzo': 'In dubbio',
-    'Chakvetadze': 'Rientro a metà settembre', 'Zanoli': 'Rientro a ottobre', 'Zaniolo': 'Rientro a fine settembre', 'Palma': 'Rientro a metà settembre', 'Kabasele': 'Squalificato', 'Okoye': 'In dubbio',
+    'Chakvetadze': 'Rientro a metà settembre', 'Zanoli': 'Rientro a ottobre', 'Zaniolo': 'Rientro a fine settembre (Microfrattura piede)', 'Palma': 'Rientro a metà settembre', 'Kabasele': 'Squalificato', 'Okoye': 'In dubbio',
     'Sverko': 'Rientro a ottobre', 'Adorante': 'Rientro a ottobre', 'Franjic': 'In dubbio', 'Moreno': 'In dubbio'
 }
 
-# --- BLOCCO TRADUZIONE CHROME ---
 st.markdown("""
     <meta name="google" content="notranslate">
     <style>
@@ -70,7 +69,6 @@ if 'inizializzato' not in st.session_state:
             df = pd.read_excel('Quotazioni_Fantacalcio_Stagione_2026_27.xlsx', sheet_name='Tutti', skiprows=1)
             mappa_ruoli = {'P': 'POR', 'D': 'DIF', 'C': 'CEN', 'A': 'ATT'}
             df['Ruolo'] = df['R'].map(mappa_ruoli)
-            
             df['Quotazione'] = df['Qt.A'].fillna(1).astype(int)
             df['FVM'] = df['FVM'].fillna(1).astype(int)
             df['PFC'] = (df['FVM'] / 2).astype(int)
@@ -117,7 +115,6 @@ if 'inizializzato' not in st.session_state:
 team_names = st.session_state.nomi_squadre
 
 st.sidebar.title("⚙️ Impostazioni")
-
 st.sidebar.subheader("👥 Gestione Partecipanti")
 c_add1, c_add2 = st.sidebar.columns([2, 1])
 nuovo_nome_sq = c_add1.text_input("Nome", key="nuovo_team_input", placeholder="Es. Squadra 9")
@@ -136,7 +133,6 @@ if c_rem2.button("Elimina"):
         for g_r in giocatori_restituiti:
             g_rim = {k: v for k, v in g_r.items() if k != 'Prezzo Pagato'}
             st.session_state.listone = pd.concat([st.session_state.listone, pd.DataFrame([g_rim])], ignore_index=True)
-        
         st.session_state.nomi_squadre.remove(squadra_da_rimuovere)
         del st.session_state.squadre[squadra_da_rimuovere]
         salva_stato()
@@ -145,7 +141,6 @@ if c_rem2.button("Elimina"):
         st.sidebar.error("Devono restare almeno 2 squadre!")
 
 st.sidebar.divider()
-
 st.sidebar.subheader("✏️ Rinomina Squadre")
 for i, vecchio_nome in enumerate(team_names):
     nuovo_nome = st.sidebar.text_input(f"Nome {i+1}", value=vecchio_nome, key=f"input_nome_{i}")
@@ -177,11 +172,10 @@ st.subheader("🎯 Centro di Comando")
 col_ia, col_radar = st.columns([1.5, 1])
 
 with col_ia:
-    st.write("### 🏆 Squad Builder IA (Auto-Live)")
+    st.write("### 🏆 Squad Builder IA")
     team_ia = st.selectbox("Squadra da ottimizzare:", team_names, key="ai_builder_team")
     dati_team = st.session_state.squadre[team_ia]
     rosa_team = dati_team['giocatori']
-    
     conteggio = pd.DataFrame(rosa_team)['Ruolo'].value_counts().to_dict() if rosa_team else {}
     mancanti = {'POR': 3 - conteggio.get('POR', 0), 'DIF': 8 - conteggio.get('DIF', 0), 'CEN': 8 - conteggio.get('CEN', 0), 'ATT': 6 - conteggio.get('ATT', 0)}
     slot_rimasti = sum(mancanti.values())
@@ -201,72 +195,61 @@ with col_ia:
             bonus_rig = df_disp['Rigorista'].map({'1° Rigorista': 10.0, 'Alternativa': 5.0, 'No': 0.0})
             bonus_treq = df_disp['Trequartista'].map({'Finto Attaccante': 8.0, 'No': 0.0})
             bonus_est = df_disp['Esterno_Attacco'].map({"Esterno d'Attacco": 6.0, 'No': 0.0})
-            malus_inf = df_disp['Infortunio'].apply(lambda x: -20.0 if x != "No" else 0.0)
             
+            def get_malus_inf(row):
+                inf_str = str(row['Infortunio']).lower()
+                if inf_str == "no": return 0.0
+                is_lieve_strutt = any(k in inf_str for k in ['metacarpo', 'mano', 'braccio', 'spalla', 'zigomo', 'volto', 'frattura', 'piede'])
+                if "dubbio" in inf_str or "settembre" in inf_str or "squalificato" in inf_str: return -1.0
+                if "ottobre" in inf_str: return -5.0 if is_lieve_strutt else -10.0
+                return -8.0 if is_lieve_strutt else -20.0
+                
+            malus_inf = df_disp.apply(get_malus_inf, axis=1)
             df_disp['Score IA'] = (df_disp['FVM'] * 0.2) + df_disp['Delta'] - (df_disp['Calendario'] * 2) + (df_disp['Titolarita'] / 10) + bonus_rig + bonus_treq + bonus_est + malus_inf
             
-            def calc_spesa_max(row):
+            def calc_spesa_max_ia(row):
                 if row['Titolarita'] < 50: return 0 
-                
                 base_spesa = row['PFC']
-                inf = str(row['Infortunio']).lower()
+                inf_str = str(row['Infortunio']).lower()
                 
-                if inf != "no": 
-                    if "dubbio" in inf or "settembre" in inf or "squalificato" in inf:
-                        base_spesa = max(1, base_spesa * 0.8) 
-                    elif "ottobre" in inf:
-                        base_spesa = max(1, base_spesa * 0.5)
-                    elif "novembre" in inf or "dicembre" in inf or "2027" in inf or "gennaio" in inf:
-                        base_spesa = max(1, base_spesa * 0.2)
+                if inf_str != "no": 
+                    is_lieve_strutt = any(k in inf_str for k in ['metacarpo', 'mano', 'braccio', 'spalla', 'zigomo', 'volto', 'frattura', 'piede'])
+                    if "dubbio" in inf_str or "settembre" in inf_str or "squalificato" in inf_str:
+                        base_spesa = max(1, base_spesa * 0.95)
+                    elif "ottobre" in inf_str:
+                        base_spesa = max(1, base_spesa * (0.7 if is_lieve_strutt else 0.5))
                     else:
-                        base_spesa = max(1, base_spesa * 0.5)
+                        base_spesa = max(1, base_spesa * (0.6 if is_lieve_strutt else 0.2))
                 
                 df_ruolo = st.session_state.listone[st.session_state.listone['Ruolo'] == row['Ruolo']]
                 num_meglio = len(df_ruolo[(df_ruolo['FVM'] > row['FVM']) & (df_ruolo['Titolarita'] > 60) & (df_ruolo['Nome'] != row['Nome'])])
-                    
-                if num_meglio > 0:
-                    base_spesa *= 0.85 if num_meglio > 3 else 0.90
-                    
-                if (row['PFC'] - row['PMA']) < -5:
-                    base_spesa *= 0.85
-                    
+                if num_meglio > 0: base_spesa *= 0.85 if num_meglio > 3 else 0.90
+                if (row['PFC'] - row['PMA']) < -5: base_spesa *= 0.85
                 return min(int(base_spesa), budget_max, limite_matematico)
             
-            df_disp['Spesa MAX 🛑'] = df_disp.apply(calc_spesa_max, axis=1)
+            df_disp['Spesa MAX 🛑'] = df_disp.apply(calc_spesa_max_ia, axis=1)
             df_disp = df_disp[df_disp['Spesa MAX 🛑'] > 0]
-            
             top_consigli = df_disp.sort_values(by='Score IA', ascending=False).head(5).reset_index(drop=True)
             top_consigli.insert(0, 'Classifica', ['🥇 1°', '🥈 2°', '🥉 3°', '4°', '5°'][:len(top_consigli)])
             
-            st.info(f"**FASE ASTA ATTUALE:** Cerchiamo i **{ruolo_focus}** (Ne mancano {mancanti[ruolo_focus]})\n\n"
-                    f"📊 **PORTAFOGLIO:** Rimasti **{dati_team['budget']} cr** | Utilizzabili ora: **{budget_max} cr**")
-            
-            if ruolo_focus == 'POR':
-                 st.dataframe(top_consigli[['Classifica', 'Nome', 'Squadra', 'FVM', 'Titolarita', 'Spesa MAX 🛑', 'Infortunio']], hide_index=True)
-            elif ruolo_focus == 'DIF':
-                 st.dataframe(top_consigli[['Classifica', 'Nome', 'Squadra', 'Esterno_Attacco', 'Rigorista', 'FVM', 'Spesa MAX 🛑', 'Infortunio']], hide_index=True)
-            elif ruolo_focus == 'CEN':
-                 st.dataframe(top_consigli[['Classifica', 'Nome', 'Squadra', 'Trequartista', 'Rigorista', 'FVM', 'Spesa MAX 🛑', 'Infortunio']], hide_index=True)
-            else:
-                 st.dataframe(top_consigli[['Classifica', 'Nome', 'Squadra', 'Rigorista', 'FVM', 'Titolarita', 'Spesa MAX 🛑', 'Infortunio']], hide_index=True)
+            st.info(f"**FASE ASTA ATTUALE:** Cerchiamo i **{ruolo_focus}** (Ne mancano {mancanti[ruolo_focus]})\n\n📊 **PORTAFOGLIO:** Rimasti **{dati_team['budget']} cr**")
+            cols_show = ['Classifica', 'Nome', 'Squadra', 'FVM', 'Spesa MAX 🛑', 'Infortunio']
+            st.dataframe(top_consigli[cols_show], hide_index=True)
 
 with col_radar:
     st.write("### 🔎 Radar e Assegnazione")
     if not st.session_state.listone.empty:
         fase_asta = st.radio("Filtro:", ["POR", "DIF", "CEN", "ATT", "TUTTI"], horizontal=True, key="filtro_radar")
         df_ricerca = st.session_state.listone if fase_asta == 'TUTTI' else st.session_state.listone[st.session_state.listone['Ruolo'] == fase_asta]
-        
         giocatore_sel = st.selectbox("Cerca Calciatore:", df_ricerca['Nome'].sort_values(), key="ricerca_giocatore")
         mio_team = team_names[0]
-        
         idx = st.session_state.listone[st.session_state.listone['Nome'] == giocatore_sel].index
+        
         if not idx.empty:
             g = st.session_state.listone.loc[idx[0]]
-            
             rosa_radar = st.session_state.squadre[mio_team]['giocatori']
             conteggio_r = pd.DataFrame(rosa_radar)['Ruolo'].value_counts().to_dict() if rosa_radar else {}
             mancanti_reparto_r = {'POR': 3, 'DIF': 8, 'CEN': 8, 'ATT': 6}.get(g['Ruolo'], 0) - conteggio_r.get(g['Ruolo'], 0)
-            
             budget_disp = st.session_state.squadre[mio_team]['budget'] - max(0, 25 - len(rosa_radar) - 1)
             lim_mat = max([sq['budget'] - max(0, 25 - len(sq['giocatori']) - 1) for n, sq in st.session_state.squadre.items() if n != mio_team] or [0]) + 1
             
@@ -275,57 +258,43 @@ with col_radar:
             
             if g['Infortunio'] != "No":
                 inf_str = g['Infortunio'].lower()
+                is_lieve_strutt = any(k in inf_str for k in ['metacarpo', 'mano', 'braccio', 'spalla', 'zigomo', 'volto', 'frattura', 'piede'])
+                
                 if "dubbio" in inf_str or "settembre" in inf_str or "squalificato" in inf_str:
-                    base_spesa = max(1, base_spesa * 0.8)
-                    avviso += f"🚑 **INFORTUNIO LIEVE:** {g['Infortunio']}. Spesa abbassata del 20%.\n\n"
+                    base_spesa = max(1, base_spesa * 0.95)
+                    avviso += f"💡 **VANTAGGIO ASTA RITARDATA:** {g['Infortunio']}. Salterà al massimo la giornata corrente.\n\n"
                 elif "ottobre" in inf_str:
-                    base_spesa = max(1, base_spesa * 0.5)
-                    avviso += f"🚑 **INFORTUNIO MEDIO:** {g['Infortunio']}. Spesa dimezzata!\n\n"
+                    base_spesa = max(1, base_spesa * (0.7 if is_lieve_strutt else 0.5))
+                    tipo = "Manterrà la forma atletica." if is_lieve_strutt else "Danno muscolare/articolare."
+                    avviso += f"🚑 **INFORTUNIO MEDIO:** {g['Infortunio']}. {tipo}\n\n"
                 else:
-                    base_spesa = max(1, base_spesa * 0.2)
-                    avviso += f"🚑 **INFORTUNIO GRAVE:** {g['Infortunio']}. Budget tagliato dell'80%!\n\n"
+                    base_spesa = max(1, base_spesa * (0.6 if is_lieve_strutt else 0.2))
+                    tipo = "Nessun deficit atletico al rientro (sconto applicato per le sole partite saltate)." if is_lieve_strutt else "Danno strutturale grave, da evitare!"
+                    avviso += f"🚑 **INFORTUNIO LUNGO:** {g['Infortunio']}. {tipo}\n\n"
                 
             df_ruolo = st.session_state.listone[st.session_state.listone['Ruolo'] == g['Ruolo']]
             df_meglio = df_ruolo[(df_ruolo['FVM'] > g['FVM']) & (df_ruolo['Titolarita'] > 60) & (df_ruolo['Nome'] != g['Nome'])]
-            
             num_meglio = len(df_meglio)
+            
             if num_meglio > 0:
-                top_alt = df_meglio.sort_values(by='FVM', ascending=False).head(2)['Nome'].tolist()
                 base_spesa *= 0.85 if num_meglio > 3 else 0.90
-                avviso += f"💡 **Guarda Oltre:** Ci sono ancora **{num_meglio} {g['Ruolo']} migliori** (es. *{', '.join(top_alt)}*).\n📉 *Spesa Max abbassata per fare disturbo.*\n\n"
-            else:
-                avviso += f"👑 **È IL TOP SUL MERCATO!** Nessuno svincolato ha un Valore Mercato (FVM) superiore.\n\n"
-                
-            if (g['PFC'] - g['PMA']) < -5:
-                avviso += f"⚠️ **ATTENZIONE:** Giocatore in hype! Rischio di pagarlo troppo.\n\n"
-                base_spesa *= 0.85 
-                
+            
             spesa_max = 0
             if mancanti_reparto_r <= 0:
-                avviso = "❌ **NON PRENDERE:** Hai già completato i giocatori per questo reparto!"
-                spesa_max = 0
+                avviso = "❌ **NON PRENDERE:** Reparto completato!"
             elif g['Titolarita'] < 50:
-                avviso = "❌ **NON PRENDERE:** Giocatore con valore bassissimo o riserva fissa. Ignoralo e lascia che lo comprino gli altri!"
-                spesa_max = 0
+                avviso = "❌ **NON PRENDERE:** Riserva fissa."
             else:
                 spesa_max = int(min(base_spesa, budget_disp))
                 if spesa_max > lim_mat: 
                     spesa_max = lim_mat
-                    avviso += f"🛑 **LIMITATORE ATTIVO:** Non superare i {lim_mat} cr!"
-
-            badge = ""
-            if g['Rigorista'] == '1° Rigorista': badge += " | 🎯 **1° RIGORISTA**"
-            elif g['Rigorista'] == 'Alternativa': badge += " | 🎯 **Alternativa Rigori**"
-            if g['Trequartista'] == 'Finto Attaccante': badge += " | 🚀 **FINTO ATTACCANTE**"
-            if g['Esterno_Attacco'] == "Esterno d'Attacco": badge += " | 🚄 **ESTERNO D'ATTACCO**"
             
-            stats_str = f"📊 **Quotazione Attuale: {g['Quotazione']}** | 💰 **FVM (Valore Mercato): {g['FVM']}**\n{badge}"
-            
+            stats_str = f"📊 **Quotazione: {g['Quotazione']}** | 💰 **FVM: {g['FVM']}**"
             with st.container():
-                if spesa_max == 0 or g['Infortunio'] != "No":
-                    st.error(f"**{g['Nome']} ({g['Ruolo']})**\n\n{stats_str}\n\n{avviso}\n\n🛑 **LA TUA SPESA MAX: {spesa_max} cr**")
+                if spesa_max == 0 or ("crociato" in g['Infortunio'].lower() or "ginocchio" in g['Infortunio'].lower()):
+                    st.error(f"**{g['Nome']} ({g['Ruolo']})**\n\n{stats_str}\n\n{avviso}\n\n🛑 **SPESA MAX: {spesa_max} cr**")
                 else:
-                    st.info(f"**{g['Nome']} ({g['Ruolo']})**\n\n{stats_str}\n\n{avviso}\n\n🛑 **LA TUA SPESA MAX: {spesa_max} cr**")
+                    st.info(f"**{g['Nome']} ({g['Ruolo']})**\n\n{stats_str}\n\n{avviso}\n\n🛑 **SPESA MAX: {spesa_max} cr**")
         
         c1, c2 = st.columns([2, 1])
         with c1: acquirente = st.selectbox("Acquistato da:", team_names, key="sq_acq")
@@ -348,15 +317,7 @@ rosa = st.session_state.squadre[sq_vis]['giocatori']
 if rosa:
     for idx_r, g_r in enumerate(rosa):
         c_inf, c_btn = st.columns([5, 1])
-        
-        extra_badge = ""
-        if g_r.get('Rigorista', 'No') != 'No': extra_badge += f" 🎯"
-        if g_r.get('Trequartista', 'No') == 'Finto Attaccante': extra_badge += f" 🚀"
-        if g_r.get('Esterno_Attacco', 'No') == "Esterno d'Attacco": extra_badge += f" 🚄"
-        if g_r.get('Infortunio', 'No') != 'No': extra_badge += f" 🚑"
-        
-        c_inf.write(f"**{g_r['Nome']}** ({g_r['Ruolo']}){extra_badge} | Costo: {g_r['Prezzo Pagato']} cr | FVM: {g_r['FVM']}")
-        
+        c_inf.write(f"**{g_r['Nome']}** ({g_r['Ruolo']}) | Costo: {g_r['Prezzo Pagato']} cr | FVM: {g_r['FVM']}")
         if c_btn.button("❌", key=f"rm_{sq_vis}_{idx_r}"):
             g_rim = {k: v for k, v in g_r.items() if k != 'Prezzo Pagato'}
             st.session_state.listone = pd.concat([st.session_state.listone, pd.DataFrame([g_rim])], ignore_index=True)
@@ -364,5 +325,3 @@ if rosa:
             st.session_state.squadre[sq_vis]['giocatori'].pop(idx_r)
             salva_stato()
             st.rerun()
-else:
-    st.info("Nessun acquisto.")
