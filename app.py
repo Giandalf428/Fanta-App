@@ -75,8 +75,16 @@ if 'inizializzato' not in st.session_state:
             df['PMA'] = df['Quotazione'] + 2 
             df['Titolarita'] = df['FVM'].apply(lambda x: 95 if x > 70 else (80 if x > 30 else (60 if x > 10 else 30)))
             
-            voti_calendario = {'Atalanta': 5, 'Bologna': 3, 'Cagliari': 4, 'Como': 2, 'Fiorentina': 3, 'Frosinone': 2, 'Genoa': 3, 'Inter': 4, 'Juventus': 5, 'Lazio': 3, 'Lecce': 3, 'Milan': 4, 'Monza': 4, 'Napoli': 4, 'Parma': 4, 'Roma': 4, 'Sassuolo': 4, 'Torino': 2, 'Udinese': 3, 'Venezia': 5}
-            df['Calendario'] = df['Squadra'].map(voti_calendario).fillna(3)
+            # --- CALENDARIO DINAMICO (GIORNE D'ANDATA: 4 - 19) ---
+            voti_calendario = {
+                'Inter': 5.0, 'Napoli': 4.5, 
+                'Juventus': 4.0, 'Milan': 4.0, 'Atalanta': 4.0,
+                'Roma': 3.5, 'Lazio': 3.5, 'Fiorentina': 3.5, 
+                'Bologna': 3.0, 'Torino': 3.0, 'Genoa': 3.0,
+                'Como': 2.5, 'Monza': 2.5, 'Parma': 2.5, 'Sassuolo': 2.5, 'Frosinone': 2.5, 'Udinese': 2.5,
+                'Cagliari': 2.0, 'Lecce': 1.5, 'Venezia': 1.0
+            }
+            df['Calendario'] = df['Squadra'].map(voti_calendario).fillna(3.0)
                 
             def get_rigorista_status(nome):
                 for r in rigoristi_primi:
@@ -196,6 +204,13 @@ with col_ia:
             bonus_treq = df_disp['Trequartista'].map({'Finto Attaccante': 8.0, 'No': 0.0})
             bonus_est = df_disp['Esterno_Attacco'].map({"Esterno d'Attacco": 6.0, 'No': 0.0})
             
+            bonus_secondo_portiere = pd.Series(0.0, index=df_disp.index)
+            if rosa_team and ruolo_focus == 'POR':
+                squadre_portieri_attuali = [g['Squadra'] for g in rosa_team if g['Ruolo'] == 'POR']
+                for idx, row in df_disp.iterrows():
+                    if row['Squadra'] in squadre_portieri_attuali:
+                        bonus_secondo_portiere[idx] = 15.0 
+            
             def get_malus_inf(row):
                 inf_str = str(row['Infortunio']).lower()
                 if inf_str == "no": return 0.0
@@ -205,7 +220,8 @@ with col_ia:
                 return -8.0 if is_lieve_strutt else -20.0
                 
             malus_inf = df_disp.apply(get_malus_inf, axis=1)
-            df_disp['Score IA'] = (df_disp['FVM'] * 0.2) + df_disp['Delta'] - (df_disp['Calendario'] * 2) + (df_disp['Titolarita'] / 10) + bonus_rig + bonus_treq + bonus_est + malus_inf
+            # IA focalizzata su FVM e Forza Squadra (Calendario Girone Andata)
+            df_disp['Score IA'] = (df_disp['FVM'] * 0.2) + df_disp['Delta'] + (df_disp['Calendario'] * 3) + (df_disp['Titolarita'] / 10) + bonus_rig + bonus_treq + bonus_est + malus_inf + bonus_secondo_portiere
             
             def calc_spesa_max_ia(row):
                 if row['Titolarita'] < 50: return 0 
@@ -255,7 +271,14 @@ with col_radar:
             
             base_spesa = g['PFC']
             avviso = ""
+            is_secondo_portiere = False
             
+            if rosa_radar and g['Ruolo'] == 'POR':
+                squadre_portieri_attuali = [p['Squadra'] for p in rosa_radar if p['Ruolo'] == 'POR']
+                if squadre_portieri_attuali and g['Squadra'] in squadre_portieri_attuali:
+                    avviso += "🛡️ **SECONDO PORTIERE:** Ottima scelta per coprire il tuo titolare!\n\n"
+                    is_secondo_portiere = True
+
             if g['Infortunio'] != "No":
                 inf_str = g['Infortunio'].lower()
                 is_lieve_strutt = any(k in inf_str for k in ['metacarpo', 'mano', 'braccio', 'spalla', 'zigomo', 'volto', 'frattura', 'piede'])
@@ -282,7 +305,7 @@ with col_radar:
             spesa_max = 0
             if mancanti_reparto_r <= 0:
                 avviso = "❌ **NON PRENDERE:** Reparto completato!"
-            elif g['Titolarita'] < 50:
+            elif g['Titolarita'] < 50 and not is_secondo_portiere: 
                 avviso = "❌ **NON PRENDERE:** Riserva fissa."
             else:
                 spesa_max = int(min(base_spesa, budget_disp))
