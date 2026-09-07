@@ -66,19 +66,12 @@ if 'inizializzato' not in st.session_state:
         st.session_state.squadre = {nome: {'budget': 500, 'giocatori': []} for nome in st.session_state.nomi_squadre}
         
         try:
-            df = pd.read_excel('Quotazioni_Fantacalcio_Stagione_2026_27 (1).xlsx', sheet_name='Tutti', skiprows=1)
+            df = pd.read_excel('Quotazioni_Fantacalcio_Stagione_2026_27.xlsx', sheet_name='Tutti', skiprows=1)
             mappa_ruoli = {'P': 'POR', 'D': 'DIF', 'C': 'CEN', 'A': 'ATT'}
             df['Ruolo'] = df['R'].map(mappa_ruoli)
             
-            # --- FIX OMONIMIE ---
-            df.loc[(df['Nome'].str.contains('Thuram', case=False, na=False)) & (df['Squadra'] == 'INT'), 'Nome'] = 'Marcus Thuram'
-            df.loc[(df['Nome'].str.contains('Thuram', case=False, na=False)) & (df['Squadra'] == 'JUV'), 'Nome'] = 'Khephren Thuram'
-            df.loc[(df['Nome'].str.contains('Adams', case=False, na=False)) & (df['Squadra'] == 'TOR'), 'Nome'] = 'Che Adams'
-            df.loc[(df['Nome'].str.contains('Adams', case=False, na=False)) & (df['Squadra'] == 'VEN'), 'Nome'] = 'Alieu Adams'
-            df.loc[(df['Nome'].str.contains('Esposito', case=False, na=False)) & (df['Squadra'] == 'INT'), 'Nome'] = 'Pio Esposito'
-            df.loc[(df['Nome'].str.contains('Esposito', case=False, na=False)) & (df['Squadra'] == 'SAS'), 'Nome'] = 'Salvatore Esposito'
-            df.loc[(df['Nome'].str.contains('Pellegrini', case=False, na=False)) & (df['Squadra'] == 'ROM'), 'Nome'] = 'Lorenzo Pellegrini'
-            df.loc[(df['Nome'].str.contains('Pellegrini', case=False, na=False)) & (df['Squadra'] == 'LAZ'), 'Nome'] = 'Luca Pellegrini'
+            # --- CREAZIONE NOME DISPLAY (Es: Adams C. (TOR)) ---
+            df['Nome_Display'] = df['Nome'] + ' (' + df['Squadra'] + ')'
 
             # Calcolo automatico di base
             df['Quotazione'] = df['Qt.A'].fillna(1).astype(int)
@@ -87,7 +80,7 @@ if 'inizializzato' not in st.session_state:
             df['PMA'] = df['Quotazione'] + 2 
             df['Titolarita'] = df['FVM'].apply(lambda x: 95 if x > 70 else (80 if x > 30 else (60 if x > 10 else 30)))
             
-            # --- PATCH DI MERCATO ---
+            # --- PATCH DI MERCATO & FORZATURA TITOLARITA' ---
             aggiornamenti_mercato = {
                 'Malen': {'Squadra': 'ROM', 'Quotazione': 61, 'Titolare': 95},
                 'Hojlund': {'Squadra': 'NAP', 'Quotazione': 48, 'Titolare': 95},
@@ -100,6 +93,7 @@ if 'inizializzato' not in st.session_state:
                 'Butez': {'Squadra': 'COM', 'Quotazione': 19, 'Titolare': 80},
                 'Bernardeschi': {'Squadra': 'BOL', 'Quotazione': 15, 'Titolare': 80},
                 'Isaksen': {'Squadra': 'LAZ', 'Quotazione': 15, 'Titolare': 80},
+                'Corvi': {'Squadra': 'PAR', 'Quotazione': 2, 'Titolare': 95}, 
                 'Daffara': {'Squadra': 'PAR', 'Quotazione': 4, 'Titolare': 40}
             }
             
@@ -110,6 +104,8 @@ if 'inizializzato' not in st.session_state:
                     df.loc[idx, 'Quotazione'] = dati['Quotazione']
                     df.loc[idx, 'FVM'] = dati['Quotazione'] * 2
                     df.loc[idx, 'Titolarita'] = dati['Titolare']
+                    # Aggiorna anche il Nome Display con la nuova squadra
+                    df.loc[idx, 'Nome_Display'] = df.loc[idx, 'Nome'] + ' (' + dati['Squadra'] + ')'
             
             # Calendario Dinamico
             voti_calendario = {
@@ -149,7 +145,7 @@ if 'inizializzato' not in st.session_state:
             df['Esterno_Attacco'] = df['Nome'].apply(get_difensore_avanzato_status)
             df['Infortunio'] = df['Nome'].apply(get_infortunio_status)
             
-            st.session_state.listone = df[['Nome', 'Ruolo', 'Squadra', 'Quotazione', 'Calendario', 'Titolarita', 'PFC', 'PMA', 'FVM', 'Rigorista', 'Trequartista', 'Esterno_Attacco', 'Infortunio']]
+            st.session_state.listone = df[['Nome', 'Nome_Display', 'Ruolo', 'Squadra', 'Quotazione', 'Calendario', 'Titolarita', 'PFC', 'PMA', 'FVM', 'Rigorista', 'Trequartista', 'Esterno_Attacco', 'Infortunio']]
             salva_stato()
         except Exception as e:
             st.error(f"⚠️ Errore Excel: {e}")
@@ -284,7 +280,7 @@ with col_ia:
             top_consigli.insert(0, 'Classifica', ['🥇 1°', '🥈 2°', '🥉 3°', '4°', '5°'][:len(top_consigli)])
             
             st.info(f"**FASE ASTA ATTUALE:** Cerchiamo i **{ruolo_focus}** (Ne mancano {mancanti[ruolo_focus]})\n\n📊 **PORTAFOGLIO:** Rimasti **{dati_team['budget']} cr**")
-            cols_show = ['Classifica', 'Nome', 'Squadra', 'FVM', 'Spesa MAX 🛑', 'Infortunio']
+            cols_show = ['Classifica', 'Nome_Display', 'FVM', 'Spesa MAX 🛑', 'Infortunio']
             st.dataframe(top_consigli[cols_show], hide_index=True)
 
 with col_radar:
@@ -292,9 +288,13 @@ with col_radar:
     if not st.session_state.listone.empty:
         fase_asta = st.radio("Filtro:", ["POR", "DIF", "CEN", "ATT", "TUTTI"], horizontal=True, key="filtro_radar")
         df_ricerca = st.session_state.listone if fase_asta == 'TUTTI' else st.session_state.listone[st.session_state.listone['Ruolo'] == fase_asta]
-        giocatore_sel = st.selectbox("Cerca Calciatore:", df_ricerca['Nome'].sort_values(), key="ricerca_giocatore")
+        
+        # --- UTILIZZO DEL NOME DISPLAY NEL MENU A TENDINA ---
+        giocatore_sel_display = st.selectbox("Cerca Calciatore:", df_ricerca['Nome_Display'].sort_values(), key="ricerca_giocatore")
+        
         mio_team = team_names[0]
-        idx = st.session_state.listone[st.session_state.listone['Nome'] == giocatore_sel].index
+        # Recuperiamo l'indice cercando il Nome Display selezionato
+        idx = st.session_state.listone[st.session_state.listone['Nome_Display'] == giocatore_sel_display].index
         
         if not idx.empty:
             g = st.session_state.listone.loc[idx[0]]
@@ -350,9 +350,9 @@ with col_radar:
             stats_str = f"📊 **Quotazione: {g['Quotazione']}** | 💰 **FVM: {g['FVM']}**"
             with st.container():
                 if spesa_max == 0 or ("crociato" in g['Infortunio'].lower() or "ginocchio" in g['Infortunio'].lower()):
-                    st.error(f"**{g['Nome']} ({g['Ruolo']})**\n\n{stats_str}\n\n{avviso}\n\n🛑 **SPESA MAX: {spesa_max} cr**")
+                    st.error(f"**{g['Nome_Display']} ({g['Ruolo']})**\n\n{stats_str}\n\n{avviso}\n\n🛑 **SPESA MAX: {spesa_max} cr**")
                 else:
-                    st.info(f"**{g['Nome']} ({g['Ruolo']})**\n\n{stats_str}\n\n{avviso}\n\n🛑 **SPESA MAX: {spesa_max} cr**")
+                    st.info(f"**{g['Nome_Display']} ({g['Ruolo']})**\n\n{stats_str}\n\n{avviso}\n\n🛑 **SPESA MAX: {spesa_max} cr**")
         
         c1, c2 = st.columns([2, 1])
         with c1: acquirente = st.selectbox("Acquistato da:", team_names, key="sq_acq")
@@ -375,7 +375,8 @@ rosa = st.session_state.squadre[sq_vis]['giocatori']
 if rosa:
     for idx_r, g_r in enumerate(rosa):
         c_inf, c_btn = st.columns([5, 1])
-        c_inf.write(f"**{g_r['Nome']}** ({g_r['Ruolo']}) | Costo: {g_r['Prezzo Pagato']} cr | FVM: {g_r['FVM']}")
+        # Modificato per mostrare il Nome Display anche nella rosa
+        c_inf.write(f"**{g_r.get('Nome_Display', g_r['Nome'])}** ({g_r['Ruolo']}) | Costo: {g_r['Prezzo Pagato']} cr | FVM: {g_r['FVM']}")
         if c_btn.button("❌", key=f"rm_{sq_vis}_{idx_r}"):
             g_rim = {k: v for k, v in g_r.items() if k != 'Prezzo Pagato'}
             st.session_state.listone = pd.concat([st.session_state.listone, pd.DataFrame([g_rim])], ignore_index=True)
