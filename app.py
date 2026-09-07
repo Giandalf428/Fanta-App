@@ -66,7 +66,7 @@ if 'inizializzato' not in st.session_state:
         st.session_state.squadre = {nome: {'budget': 500, 'giocatori': []} for nome in st.session_state.nomi_squadre}
         
         try:
-            df = pd.read_excel('Quotazioni_Fantacalcio_Stagione_2026_27.xlsx', sheet_name='Tutti', skiprows=1)
+            df = pd.read_excel('Quotazioni_Fantacalcio_Stagione_2026_27 (1).xlsx', sheet_name='Tutti', skiprows=1)
             mappa_ruoli = {'P': 'POR', 'D': 'DIF', 'C': 'CEN', 'A': 'ATT'}
             df['Ruolo'] = df['R'].map(mappa_ruoli)
             
