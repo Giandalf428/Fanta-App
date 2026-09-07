@@ -66,41 +66,52 @@ if 'inizializzato' not in st.session_state:
         st.session_state.squadre = {nome: {'budget': 500, 'giocatori': []} for nome in st.session_state.nomi_squadre}
         
         try:
-            # LEGGE IL FILE CON IL (1)
             df = pd.read_excel('Quotazioni_Fantacalcio_Stagione_2026_27 (1).xlsx', sheet_name='Tutti', skiprows=1)
             mappa_ruoli = {'P': 'POR', 'D': 'DIF', 'C': 'CEN', 'A': 'ATT'}
             df['Ruolo'] = df['R'].map(mappa_ruoli)
             
-            # --- PATCH DI AGGIORNAMENTO AUTOMATICO DAL PDF ---
-            aggiornamenti_mercato = {
-                'Malen': {'Squadra': 'ROM', 'Quotazione': 61},
-                'Hojlund': {'Squadra': 'NAP', 'Quotazione': 48},
-                'Ramos': {'Squadra': 'MIL', 'Quotazione': 47},
-                'Kolo Muani': {'Squadra': 'JUV', 'Quotazione': 43},
-                'Paz': {'Squadra': 'COM', 'Quotazione': 42},
-                'Woltemade': {'Squadra': 'JUV', 'Quotazione': 42},
-                'Dovbyk': {'Squadra': 'BOL', 'Quotazione': 23},
-                'Gudmundsson': {'Squadra': 'LAZ', 'Quotazione': 23},
-                'Butez': {'Squadra': 'COM', 'Quotazione': 19},
-                'Bernardeschi': {'Squadra': 'BOL', 'Quotazione': 15},
-                'Isaksen': {'Squadra': 'LAZ', 'Quotazione': 15},
-                'Corvi': {'Squadra': 'PAR', 'Quotazione': 2},
-                'Suzuki': {'Squadra': 'PAR', 'Quotazione': 12},
-                'Daffara': {'Squadra': 'PAR', 'Quotazione': 4}
-            }
-            
-            for nome, dati in aggiornamenti_mercato.items():
-                idx = df[df['Nome'].str.contains(nome, case=False, na=False)].index
-                if not idx.empty:
-                    df.loc[idx, 'Squadra'] = dati['Squadra']
-                    df.loc[idx, 'Qt.A'] = dati['Quotazione']
-            
+            # --- FIX OMONIMIE ---
+            df.loc[(df['Nome'].str.contains('Thuram', case=False, na=False)) & (df['Squadra'] == 'INT'), 'Nome'] = 'Marcus Thuram'
+            df.loc[(df['Nome'].str.contains('Thuram', case=False, na=False)) & (df['Squadra'] == 'JUV'), 'Nome'] = 'Khephren Thuram'
+            df.loc[(df['Nome'].str.contains('Adams', case=False, na=False)) & (df['Squadra'] == 'TOR'), 'Nome'] = 'Che Adams'
+            df.loc[(df['Nome'].str.contains('Adams', case=False, na=False)) & (df['Squadra'] == 'VEN'), 'Nome'] = 'Alieu Adams'
+            df.loc[(df['Nome'].str.contains('Esposito', case=False, na=False)) & (df['Squadra'] == 'INT'), 'Nome'] = 'Pio Esposito'
+            df.loc[(df['Nome'].str.contains('Esposito', case=False, na=False)) & (df['Squadra'] == 'SAS'), 'Nome'] = 'Salvatore Esposito'
+            df.loc[(df['Nome'].str.contains('Pellegrini', case=False, na=False)) & (df['Squadra'] == 'ROM'), 'Nome'] = 'Lorenzo Pellegrini'
+            df.loc[(df['Nome'].str.contains('Pellegrini', case=False, na=False)) & (df['Squadra'] == 'LAZ'), 'Nome'] = 'Luca Pellegrini'
+
+            # Calcolo automatico di base
             df['Quotazione'] = df['Qt.A'].fillna(1).astype(int)
             df['FVM'] = df['FVM'].fillna(1).astype(int)
             df['PFC'] = (df['FVM'] / 2).astype(int)
             df['PMA'] = df['Quotazione'] + 2 
             df['Titolarita'] = df['FVM'].apply(lambda x: 95 if x > 70 else (80 if x > 30 else (60 if x > 10 else 30)))
             
+            # --- PATCH DI MERCATO ---
+            aggiornamenti_mercato = {
+                'Malen': {'Squadra': 'ROM', 'Quotazione': 61, 'Titolare': 95},
+                'Hojlund': {'Squadra': 'NAP', 'Quotazione': 48, 'Titolare': 95},
+                'Ramos': {'Squadra': 'MIL', 'Quotazione': 47, 'Titolare': 95},
+                'Kolo Muani': {'Squadra': 'JUV', 'Quotazione': 43, 'Titolare': 95},
+                'Paz': {'Squadra': 'COM', 'Quotazione': 42, 'Titolare': 95},
+                'Woltemade': {'Squadra': 'JUV', 'Quotazione': 42, 'Titolare': 80},
+                'Dovbyk': {'Squadra': 'BOL', 'Quotazione': 23, 'Titolare': 80},
+                'Gudmundsson': {'Squadra': 'LAZ', 'Quotazione': 23, 'Titolare': 80},
+                'Butez': {'Squadra': 'COM', 'Quotazione': 19, 'Titolare': 80},
+                'Bernardeschi': {'Squadra': 'BOL', 'Quotazione': 15, 'Titolare': 80},
+                'Isaksen': {'Squadra': 'LAZ', 'Quotazione': 15, 'Titolare': 80},
+                'Daffara': {'Squadra': 'PAR', 'Quotazione': 4, 'Titolare': 40}
+            }
+            
+            for nome, dati in aggiornamenti_mercato.items():
+                idx = df[df['Nome'].str.contains(nome, case=False, na=False)].index
+                if not idx.empty:
+                    df.loc[idx, 'Squadra'] = dati['Squadra']
+                    df.loc[idx, 'Quotazione'] = dati['Quotazione']
+                    df.loc[idx, 'FVM'] = dati['Quotazione'] * 2
+                    df.loc[idx, 'Titolarita'] = dati['Titolare']
+            
+            # Calendario Dinamico
             voti_calendario = {
                 'Inter': 5.0, 'Napoli': 4.5, 
                 'Juventus': 4.0, 'Milan': 4.0, 'Atalanta': 4.0,
