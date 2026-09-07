@@ -66,7 +66,8 @@ if 'inizializzato' not in st.session_state:
         st.session_state.squadre = {nome: {'budget': 500, 'giocatori': []} for nome in st.session_state.nomi_squadre}
         
         try:
-            df = pd.read_excel('Quotazioni_Fantacalcio_Stagione_2026_27.xlsx', sheet_name='Tutti', skiprows=1)
+            # LEGGE IL FILE CON IL (1)
+            df = pd.read_excel('Quotazioni_Fantacalcio_Stagione_2026_27 (1).xlsx', sheet_name='Tutti', skiprows=1)
             mappa_ruoli = {'P': 'POR', 'D': 'DIF', 'C': 'CEN', 'A': 'ATT'}
             df['Ruolo'] = df['R'].map(mappa_ruoli)
             
@@ -100,7 +101,6 @@ if 'inizializzato' not in st.session_state:
             df['PMA'] = df['Quotazione'] + 2 
             df['Titolarita'] = df['FVM'].apply(lambda x: 95 if x > 70 else (80 if x > 30 else (60 if x > 10 else 30)))
             
-            # --- CALENDARIO DINAMICO (GIORNE D'ANDATA: 4 - 19) ---
             voti_calendario = {
                 'Inter': 5.0, 'Napoli': 4.5, 
                 'Juventus': 4.0, 'Milan': 4.0, 'Atalanta': 4.0,
@@ -320,7 +320,7 @@ with col_radar:
                     avviso += f"🚑 **INFORTUNIO LUNGO:** {g['Infortunio']}. {tipo}\n\n"
                 
             df_ruolo = st.session_state.listone[st.session_state.listone['Ruolo'] == g['Ruolo']]
-            df_meglio = df_ruolo[(df_ruolo['FVM'] > g['FVM']) & (df_ruolo['Titolarita'] > 60) & (df_ruolo['Nome'] != g['Nome'])])
+            df_meglio = df_ruolo[(df_ruolo['FVM'] > g['FVM']) & (df_ruolo['Titolarita'] > 60) & (df_ruolo['Nome'] != g['Nome'])]
             num_meglio = len(df_meglio)
             
             if num_meglio > 0:
