@@ -21,7 +21,7 @@ rigoristi_secondi = ['Samardzic', 'Ederson', 'Krstovic', 'Dovbyk', 'Bernardeschi
 finti_attaccanti = ['Pulisic', 'Zaccagni', 'Orsolini', 'Gudmundsson', 'Nico Paz', 'Paz N.', 'Fazzini', 'Mastantuono', 'Cambiaghi', 'Rowe', 'Maldini', 'Oristanio', 'Man', 'Neres', 'Chukwueze', 'Politano', 'Ngonge', 'Suslov']
 difensori_avanzati = ['Dimarco', 'Hernandez T.', 'Theo Hernandez', 'Dumfries', 'Bellanova', 'Cambiaso', 'Zappacosta', 'Ruggeri', 'Carlos Augusto', 'Dorgu', 'Tchatchoua', 'Kyriakopoulos', 'Gosens', 'Spinazzola', 'Biraghi', 'Gallo', 'Lazzari', 'Dodò', 'Dodo']
 
-# --- DATABASE INFORTUNI E SQUALIFICHE (AGGIORNATO CON DIAGNOSI CLINICA) ---
+# --- DATABASE INFORTUNI E SQUALIFICHE ---
 infortunati = {
     'Hien': 'Rientro a ottobre (Lesione muscolare)', 'Sulemana': 'Rientro a ottobre', 'Kristensen': 'In dubbio', 'Scalvini': 'In dubbio', 'De Ketelaere': 'In dubbio', 'Ahanor': 'In dubbio',
     'Orsolini': 'Rientro tra fine settembre e inizio ottobre (Bicipite femorale)', 'El Azzouzi': 'Rientro a ottobre', 'Casale': 'In dubbio',
@@ -69,6 +69,31 @@ if 'inizializzato' not in st.session_state:
             df = pd.read_excel('Quotazioni_Fantacalcio_Stagione_2026_27.xlsx', sheet_name='Tutti', skiprows=1)
             mappa_ruoli = {'P': 'POR', 'D': 'DIF', 'C': 'CEN', 'A': 'ATT'}
             df['Ruolo'] = df['R'].map(mappa_ruoli)
+            
+            # --- PATCH DI AGGIORNAMENTO AUTOMATICO DAL PDF ---
+            aggiornamenti_mercato = {
+                'Malen': {'Squadra': 'ROM', 'Quotazione': 61},
+                'Hojlund': {'Squadra': 'NAP', 'Quotazione': 48},
+                'Ramos': {'Squadra': 'MIL', 'Quotazione': 47},
+                'Kolo Muani': {'Squadra': 'JUV', 'Quotazione': 43},
+                'Paz': {'Squadra': 'COM', 'Quotazione': 42},
+                'Woltemade': {'Squadra': 'JUV', 'Quotazione': 42},
+                'Dovbyk': {'Squadra': 'BOL', 'Quotazione': 23},
+                'Gudmundsson': {'Squadra': 'LAZ', 'Quotazione': 23},
+                'Butez': {'Squadra': 'COM', 'Quotazione': 19},
+                'Bernardeschi': {'Squadra': 'BOL', 'Quotazione': 15},
+                'Isaksen': {'Squadra': 'LAZ', 'Quotazione': 15},
+                'Corvi': {'Squadra': 'PAR', 'Quotazione': 2},
+                'Suzuki': {'Squadra': 'PAR', 'Quotazione': 12},
+                'Daffara': {'Squadra': 'PAR', 'Quotazione': 4}
+            }
+            
+            for nome, dati in aggiornamenti_mercato.items():
+                idx = df[df['Nome'].str.contains(nome, case=False, na=False)].index
+                if not idx.empty:
+                    df.loc[idx, 'Squadra'] = dati['Squadra']
+                    df.loc[idx, 'Qt.A'] = dati['Quotazione']
+            
             df['Quotazione'] = df['Qt.A'].fillna(1).astype(int)
             df['FVM'] = df['FVM'].fillna(1).astype(int)
             df['PFC'] = (df['FVM'] / 2).astype(int)
@@ -220,7 +245,6 @@ with col_ia:
                 return -8.0 if is_lieve_strutt else -20.0
                 
             malus_inf = df_disp.apply(get_malus_inf, axis=1)
-            # IA focalizzata su FVM e Forza Squadra (Calendario Girone Andata)
             df_disp['Score IA'] = (df_disp['FVM'] * 0.2) + df_disp['Delta'] + (df_disp['Calendario'] * 3) + (df_disp['Titolarita'] / 10) + bonus_rig + bonus_treq + bonus_est + malus_inf + bonus_secondo_portiere
             
             def calc_spesa_max_ia(row):
@@ -296,7 +320,7 @@ with col_radar:
                     avviso += f"🚑 **INFORTUNIO LUNGO:** {g['Infortunio']}. {tipo}\n\n"
                 
             df_ruolo = st.session_state.listone[st.session_state.listone['Ruolo'] == g['Ruolo']]
-            df_meglio = df_ruolo[(df_ruolo['FVM'] > g['FVM']) & (df_ruolo['Titolarita'] > 60) & (df_ruolo['Nome'] != g['Nome'])]
+            df_meglio = df_ruolo[(df_ruolo['FVM'] > g['FVM']) & (df_ruolo['Titolarita'] > 60) & (df_ruolo['Nome'] != g['Nome'])])
             num_meglio = len(df_meglio)
             
             if num_meglio > 0:
